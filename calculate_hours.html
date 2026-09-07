@@ -6,6 +6,10 @@
   <title>EJ Time Sum Calculator</title>
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
       max-width: 500px;
@@ -19,43 +23,68 @@
       padding: 25px;
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      width: 100%;
+      min-width: 0;
     }
 
     .input-row {
       display: flex;
       gap: 8px;
       margin-bottom: 20px;
+      width: 100%;
+      min-width: 0;
     }
 
     .description-input {
-      width: 35%;
+      width: 55%;
       box-sizing: border-box;
       padding: 12px;
       font-size: 16px;
       border: 1px solid #ccc;
       border-radius: 8px;
+      min-width: 0;
     }
 
     .time-input {
       flex: 1;
       box-sizing: border-box;
       padding: 12px;
-      font-size: 20px;
+      font-size: 16px;
       border: 1px solid #ccc;
       border-radius: 8px;
+      min-width: 0;
     }
 
     #values {
       margin-bottom: 20px;
+      width: 100%;
+      min-width: 0;
     }
 
     .time {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 10px;
       padding: 8px 0;
       border-bottom: 1px solid #eee;
-      font-size: 18px;
+      font-size: 14px;
+      color: #666;
+      min-width: 0;
+    }
+
+    .time > span {
+      min-width: 0;
+    }
+
+    .time > span:first-child {
+      overflow-wrap: anywhere;
+    }
+
+    .time > span:last-child {
+      text-align: right;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .delete-button {
@@ -128,6 +157,7 @@
       border: 1px solid #ccc;
       border-radius: 5px;
       font-size: 16px;
+      max-width: 100%;
     }
 
     .edit-time-input {
@@ -143,6 +173,7 @@
       font-weight: bold;
       color: #2563eb;
       margin-top: 20px;
+      overflow-wrap: anywhere;
     }
 
     .total-minutes {
@@ -174,6 +205,8 @@
       margin-top: 30px;
       border-top: 1px solid #ddd;
       padding-top: 20px;
+      width: 100%;
+      min-width: 0;
     }
 
     .saved-title {
@@ -186,11 +219,26 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 10px;
       padding: 10px;
       margin-bottom: 8px;
       background: #f3f4f6;
       border-radius: 7px;
       cursor: pointer;
+      min-width: 0;
+    }
+
+    .saved-item > span {
+      min-width: 0;
+    }
+
+    .saved-item > span:first-child {
+      overflow-wrap: anywhere;
+    }
+
+    .saved-item > span:last-child {
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .saved-item:hover {
@@ -206,6 +254,7 @@
       font-weight: bold;
       color: #2563eb;
     }
+
     .delete-saved-button {
       margin-top: 0;
       margin-left: 10px;
@@ -221,9 +270,11 @@
     .delete-saved-button:hover {
       background: #b91c1c;
     }
+
     #main-title {
       text-align: center;
     }
+
     .add-button {
       margin-top: 0;
       padding: 10px 15px;
@@ -232,10 +283,124 @@
       background: #16a34a;
       color: white;
       cursor: pointer;
+      flex-shrink: 0;
     }
 
     .add-button:hover {
       background: #15803d;
+    }
+
+    /*
+      Responsive fixes
+      ----------------
+      These rules only adjust the existing layout on smaller screens.
+    */
+
+    @media (max-width: 520px) {
+      body {
+        margin: 20px auto;
+        padding: 12px;
+      }
+
+      .box {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .input-row {
+        flex-wrap: wrap;
+      }
+
+      .time-input {
+        width: calc(30% - 4px);
+        flex: 1 1 calc(30% - 4px);
+      }
+
+      .description-input {
+        width: calc(70% - 4px);
+        flex: 1 1 calc(70% - 4px);
+      }
+
+      .add-button {
+        width: 100%;
+      }
+
+      .time {
+        align-items: flex-start;
+      }
+
+      .time > span:last-child {
+        text-align: right;
+      }
+
+      .saved-item {
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 360px) {
+      body {
+        padding: 8px;
+      }
+
+      .box {
+        padding: 15px;
+      }
+
+      .time {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .time > span:last-child {
+        text-align: left;
+        white-space: normal;
+      }
+
+      .edit-button,
+      .delete-button {
+        margin-left: 5px;
+      }
+
+      .saved-item {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .saved-item > span:last-child {
+        white-space: normal;
+      }
+
+      .delete-saved-button {
+        margin-left: 5px;
+      }
+    }
+
+    @media (max-width: 330px) {
+      .input-row {
+        flex-direction: column;
+      }
+
+      .time-input,
+      .description-input,
+      .add-button {
+        width: 100%;
+        flex: none;
+      }
+
+      .edit-description-input {
+        width: 100%;
+      }
+
+      .edit-time-input {
+        width: 80px;
+      }
+
+      .time > span:first-child,
+      .time > span:last-child {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -260,7 +425,6 @@
         placeholder="Description"
       >
       <button class="add-button" onclick="calulateVal()">Add</button>
-
     </div>
 
     <div id="values"></div>
@@ -273,11 +437,10 @@
       Total: <span id="totalMinutes">0</span> minutes
     </div>
 
-
     <button id="clearAllButton" onclick="clearAll()">Clear All</button>
     <button id="saveDataButton" class="save-data-button" onclick="saveData()">Save</button>
 
-  <div id="savedSection" class="saved-section">
+    <div id="savedSection" class="saved-section">
       <div class="saved-title">Saved Data</div>
       <div id="savedItems"></div>
     </div>
@@ -293,8 +456,6 @@
     const clearAllButton = document.getElementById("clearAllButton");
     const saveDataButton = document.getElementById("saveDataButton");
     const savedSection = document.getElementById("savedSection");
-
-
 
     let times = [];
     let editingIndex = null;
@@ -312,7 +473,6 @@
     function calulateVal() {
       const timeVal = input.value.trim();
 
-      // Accept formats like 7, 7:45, or 7.45
       const match = timeVal.match(/^(\d+)(?:[.:](\d{1,2}))?$/);
 
       if (!match) {
@@ -346,7 +506,6 @@
       valuesDiv.innerHTML = "";
       clearAllButton.style.display = times.length > 0 ? "inline-block" : "none";
       saveDataButton.style.display = times.length > 0 ? "inline-block" : "none";
-
 
       times.forEach((time, index) => {
         const div = document.createElement("div");
@@ -449,7 +608,6 @@
       const timeVal = timeInput.value.trim();
       const description = descInput.value.trim();
 
-      // Accept formats like 7, 7:45, or 7.45
       const match = timeVal.match(/^(\d+)(?:[.:](\d{1,2}))?$/);
 
       if (!match) {
@@ -531,70 +689,68 @@
       );
 
       updateSavedItems();
-
     }
 
     function updateSavedItems() {
-    savedItemsDiv.innerHTML = "";
+      savedItemsDiv.innerHTML = "";
 
-    const savedData = JSON.parse(
-      localStorage.getItem("timeCalculatorData") || "[]"
-    );
-    savedSection.style.display = savedData.length > 0 ? "block" : "none";
+      const savedData = JSON.parse(
+        localStorage.getItem("timeCalculatorData") || "[]"
+      );
 
-    if (savedData.length === 0) {
-     // savedItemsDiv.innerHTML ='<div style="color:#777;">No saved data yet.</div>';
-      return;
-    }
+      savedSection.style.display = savedData.length > 0 ? "block" : "none";
 
-    savedData.forEach((data) => {
-      const div = document.createElement("div");
-      div.className = "saved-item";
+      if (savedData.length === 0) {
+        return;
+      }
 
-      const hours = Math.floor(data.totalMinutes / 60);
-      const minutes = data.totalMinutes % 60;
+      savedData.forEach((data) => {
+        const div = document.createElement("div");
+        div.className = "saved-item";
 
-      div.innerHTML = `
-        <span>
-          <div class="saved-date">${escapeHtml(data.date)}</div>
-          <div>${data.times.length} item${data.times.length !== 1 ? "s" : ""}</div>
-        </span>
+        const hours = Math.floor(data.totalMinutes / 60);
+        const minutes = data.totalMinutes % 60;
 
-        <span>
-          <span class="saved-total">
-            ${hours}:${String(minutes).padStart(2, "0")} hours
+        div.innerHTML = `
+          <span>
+            <div class="saved-date">${escapeHtml(data.date)}</div>
+            <div>${data.times.length} item${data.times.length !== 1 ? "s" : ""}</div>
           </span>
 
-          <button
-            class="delete-saved-button"
-            onclick="event.stopPropagation(); deleteSavedData(${data.id})"
-          >Delete</button>
-        </span>
-      `;
+          <span>
+            <span class="saved-total">
+              ${hours}:${String(minutes).padStart(2, "0")} hours
+            </span>
 
-      div.onclick = function() {
-        loadSavedData(data.id);
-      };
+            <button
+              class="delete-saved-button"
+              onclick="event.stopPropagation(); deleteSavedData(${data.id})"
+            >Delete</button>
+          </span>
+        `;
 
-      savedItemsDiv.appendChild(div);
-    });
-  }
+        div.onclick = function() {
+          loadSavedData(data.id);
+        };
 
-  function deleteSavedData(id) {
-    const savedData = JSON.parse(
-      localStorage.getItem("timeCalculatorData") || "[]"
-    );
+        savedItemsDiv.appendChild(div);
+      });
+    }
 
-    const updatedData = savedData.filter(item => item.id !== id);
+    function deleteSavedData(id) {
+      const savedData = JSON.parse(
+        localStorage.getItem("timeCalculatorData") || "[]"
+      );
 
-    localStorage.setItem(
-      "timeCalculatorData",
-      JSON.stringify(updatedData)
-    );
+      const updatedData = savedData.filter(item => item.id !== id);
 
-    updateSavedItems();
-  }
+      localStorage.setItem(
+        "timeCalculatorData",
+        JSON.stringify(updatedData)
+      );
 
+      updateSavedItems();
+    }
 
     function loadSavedData(id) {
       const savedData = JSON.parse(
