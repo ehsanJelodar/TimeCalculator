@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EJ Time Sum Calculator</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    .box {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .description-input {
+      width: 35%;
+      box-sizing: border-box;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .time-input {
+      flex: 1;
+      box-sizing: border-box;
+      padding: 12px;
+      font-size: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    #values {
+      margin-bottom: 20px;
+    }
+
+    .time {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 18px;
+    }
+
+    .delete-button {
+      margin-top: 0;
+      margin-left: 10px;
+      padding: 5px 9px;
+      border: none;
+      border-radius: 5px;
+      background: #dc2626;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .delete-button:hover {
+      background: #b91c1c;
+    }
+
+    .edit-button {
+      margin-top: 0;
+      margin-left: 10px;
+      padding: 5px 9px;
+      border: none;
+      border-radius: 5px;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .edit-button:hover {
+      background: #1d4ed8;
+    }
+
+    .save-edit-button {
+      margin-top: 0;
+      margin-left: 10px;
+      padding: 5px 9px;
+      border: none;
+      border-radius: 5px;
+      background: #16a34a;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .save-edit-button:hover {
+      background: #15803d;
+    }
+
+    .cancel-edit-button {
+      margin-top: 0;
+      margin-left: 5px;
+      padding: 5px 9px;
+      border: none;
+      border-radius: 5px;
+      background: #6b7280;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .cancel-edit-button:hover {
+      background: #4b5563;
+    }
+
+    .edit-input {
+      box-sizing: border-box;
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .edit-time-input {
+      width: 80px;
+    }
+
+    .edit-description-input {
+      width: 150px;
+    }
+
+    .total {
+      font-size: 24px;
+      font-weight: bold;
+      color: #2563eb;
+      margin-top: 20px;
+    }
+
+    .total-minutes {
+      font-size: 16px;
+      color: #555;
+      margin-top: 5px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 7px;
+      background: #dc2626;
+      color: white;
+      cursor: pointer;
+    }
+
+    .save-data-button {
+      background: #2563eb;
+      margin-left: 5px;
+    }
+
+    .save-data-button:hover {
+      background: #1d4ed8;
+    }
+
+    .saved-section {
+      margin-top: 30px;
+      border-top: 1px solid #ddd;
+      padding-top: 20px;
+    }
+
+    .saved-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .saved-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      margin-bottom: 8px;
+      background: #f3f4f6;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    .saved-item:hover {
+      background: #e5e7eb;
+    }
+
+    .saved-date {
+      font-size: 14px;
+      color: #555;
+    }
+
+    .saved-total {
+      font-weight: bold;
+      color: #2563eb;
+    }
+    .delete-saved-button {
+      margin-top: 0;
+      margin-left: 10px;
+      padding: 5px 9px;
+      border: none;
+      border-radius: 5px;
+      background: #dc2626;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .delete-saved-button:hover {
+      background: #b91c1c;
+    }
+    #main-title {
+      text-align: center;
+    }
+    .add-button {
+      margin-top: 0;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 7px;
+      background: #16a34a;
+      color: white;
+      cursor: pointer;
+    }
+
+    .add-button:hover {
+      background: #15803d;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+    <h2 id="main-title">Time Sum Calculator</h2>
+
+    <div class="input-row">
+      <input
+        id="timeInput"
+        class="time-input"
+        type="text"
+        placeholder="e.g. 7:45"
+        autofocus
+      >
+      <input
+        id="descriptionInput"
+        class="description-input"
+        type="text"
+        placeholder="Description"
+      >
+      <button class="add-button" onclick="calulateVal()">Add</button>
+
+    </div>
+
+    <div id="values"></div>
+
+    <div class="total">
+      Total: <span id="total">0:00 hours</span>
+    </div>
+
+    <div class="total-minutes">
+      Total: <span id="totalMinutes">0</span> minutes
+    </div>
+
+
+    <button id="clearAllButton" onclick="clearAll()">Clear All</button>
+    <button id="saveDataButton" class="save-data-button" onclick="saveData()">Save</button>
+
+  <div id="savedSection" class="saved-section">
+      <div class="saved-title">Saved Data</div>
+      <div id="savedItems"></div>
+    </div>
+  </div>
+
+  <script>
+    const input = document.getElementById("timeInput");
+    const descriptionInput = document.getElementById("descriptionInput");
+    const valuesDiv = document.getElementById("values");
+    const totalDiv = document.getElementById("total");
+    const totalMinutesDiv = document.getElementById("totalMinutes");
+    const savedItemsDiv = document.getElementById("savedItems");
+    const clearAllButton = document.getElementById("clearAllButton");
+    const saveDataButton = document.getElementById("saveDataButton");
+    const savedSection = document.getElementById("savedSection");
+
+
+
+    let times = [];
+    let editingIndex = null;
+
+    input.addEventListener("keydown", function(event) {
+      if (event.key !== "Enter") return;
+      calulateVal();
+    });
+
+    descriptionInput.addEventListener("keydown", function(event) {
+      if (event.key !== "Enter") return;
+      calulateVal();
+    });
+
+    function calulateVal() {
+      const timeVal = input.value.trim();
+
+      // Accept formats like 7, 7:45, or 7.45
+      const match = timeVal.match(/^(\d+)(?:[.:](\d{1,2}))?$/);
+
+      if (!match) {
+        alert("Please enter time like 7, 7:45, or 7.45");
+        return;
+      }
+
+      const hours = parseInt(match[1], 10);
+      const minutes = match[2] ? parseInt(match[2], 10) : 0;
+
+      if (minutes > 59) {
+        alert("Minutes must be between 0 and 59");
+        return;
+      }
+
+      const description = descriptionInput.value.trim();
+
+      times.push({
+        text: timeVal,
+        description: description,
+        minutes: hours * 60 + minutes
+      });
+
+      input.value = "";
+      descriptionInput.value = "";
+      updateDisplay();
+      input.focus();
+    }
+
+    function updateDisplay() {
+      valuesDiv.innerHTML = "";
+      clearAllButton.style.display = times.length > 0 ? "inline-block" : "none";
+      saveDataButton.style.display = times.length > 0 ? "inline-block" : "none";
+
+
+      times.forEach((time, index) => {
+        const div = document.createElement("div");
+        div.className = "time";
+
+        if (editingIndex === index) {
+          div.innerHTML = `
+            <span>
+              <input
+                id="editDescription${index}"
+                class="edit-input edit-description-input"
+                type="text"
+                value="${escapeHtml(time.description)}"
+                placeholder="Description"
+              >
+              <input
+                id="editTime${index}"
+                class="edit-input edit-time-input"
+                type="text"
+                value="${escapeHtml(time.text)}"
+                placeholder="Time"
+              >
+            </span>
+
+            <span>
+              <button
+                class="save-edit-button"
+                onclick="saveEdit(${index})"
+              >Save</button>
+
+              <button
+                class="cancel-edit-button"
+                onclick="cancelEdit()"
+              >Cancel</button>
+            </span>
+          `;
+
+          valuesDiv.appendChild(div);
+          return;
+        }
+
+        const label = time.description
+          ? `${index + 1}. ${time.description}`
+          : `${index + 1}.`;
+
+        const hours = Math.floor(time.minutes / 60);
+        const minutes = time.minutes % 60;
+
+        div.innerHTML = `
+          <span>${label}</span>
+          <span>
+            ${hours}:${String(minutes).padStart(2, "0")} (${time.minutes} min)
+
+            <button
+              class="edit-button"
+              onclick="editTime(${index})"
+            >Edit</button>
+
+            <button
+              class="delete-button"
+              onclick="deleteTime(${index})"
+            >Delete</button>
+          </span>
+        `;
+
+        valuesDiv.appendChild(div);
+      });
+
+      const totalMinutes = times.reduce(
+        (sum, time) => sum + time.minutes,
+        0
+      );
+
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+
+      totalDiv.textContent =
+        `${hours}:${String(minutes).padStart(2, "0")} hours`;
+
+      totalMinutesDiv.textContent = totalMinutes;
+    }
+
+    function editTime(index) {
+      editingIndex = index;
+      updateDisplay();
+
+      setTimeout(() => {
+        const editTimeInput = document.getElementById(`editTime${index}`);
+        if (editTimeInput) {
+          editTimeInput.focus();
+          editTimeInput.select();
+        }
+      }, 0);
+    }
+
+    function saveEdit(index) {
+      const timeInput = document.getElementById(`editTime${index}`);
+      const descInput = document.getElementById(`editDescription${index}`);
+
+      const timeVal = timeInput.value.trim();
+      const description = descInput.value.trim();
+
+      // Accept formats like 7, 7:45, or 7.45
+      const match = timeVal.match(/^(\d+)(?:[.:](\d{1,2}))?$/);
+
+      if (!match) {
+        alert("Please enter time like 7, 7:45, or 7.45");
+        return;
+      }
+
+      const hours = parseInt(match[1], 10);
+      const minutes = match[2] ? parseInt(match[2], 10) : 0;
+
+      if (minutes > 59) {
+        alert("Minutes must be between 0 and 59");
+        return;
+      }
+
+      times[index] = {
+        text: timeVal,
+        description: description,
+        minutes: hours * 60 + minutes
+      };
+
+      editingIndex = null;
+
+      updateDisplay();
+      input.focus();
+    }
+
+    function cancelEdit() {
+      editingIndex = null;
+      updateDisplay();
+      input.focus();
+    }
+
+    function deleteTime(index) {
+      times.splice(index, 1);
+
+      if (editingIndex === index) {
+        editingIndex = null;
+      }
+
+      updateDisplay();
+      input.focus();
+    }
+
+    function clearAll() {
+      times = [];
+      editingIndex = null;
+      input.value = "";
+      descriptionInput.value = "";
+      updateDisplay();
+      input.focus();
+    }
+
+    function saveData() {
+      if (times.length === 0) {
+        alert("There is no data to save.");
+        return;
+      }
+
+      const savedData = JSON.parse(
+        localStorage.getItem("timeCalculatorData") || "[]"
+      );
+
+      const totalMinutes = times.reduce(
+        (sum, time) => sum + time.minutes,
+        0
+      );
+
+      savedData.unshift({
+        id: Date.now(),
+        date: new Date().toLocaleString(),
+        times: JSON.parse(JSON.stringify(times)),
+        totalMinutes: totalMinutes
+      });
+
+      localStorage.setItem(
+        "timeCalculatorData",
+        JSON.stringify(savedData)
+      );
+
+      updateSavedItems();
+
+    }
+
+    function updateSavedItems() {
+    savedItemsDiv.innerHTML = "";
+
+    const savedData = JSON.parse(
+      localStorage.getItem("timeCalculatorData") || "[]"
+    );
+    savedSection.style.display = savedData.length > 0 ? "block" : "none";
+
+    if (savedData.length === 0) {
+     // savedItemsDiv.innerHTML ='<div style="color:#777;">No saved data yet.</div>';
+      return;
+    }
+
+    savedData.forEach((data) => {
+      const div = document.createElement("div");
+      div.className = "saved-item";
+
+      const hours = Math.floor(data.totalMinutes / 60);
+      const minutes = data.totalMinutes % 60;
+
+      div.innerHTML = `
+        <span>
+          <div class="saved-date">${escapeHtml(data.date)}</div>
+          <div>${data.times.length} item${data.times.length !== 1 ? "s" : ""}</div>
+        </span>
+
+        <span>
+          <span class="saved-total">
+            ${hours}:${String(minutes).padStart(2, "0")} hours
+          </span>
+
+          <button
+            class="delete-saved-button"
+            onclick="event.stopPropagation(); deleteSavedData(${data.id})"
+          >Delete</button>
+        </span>
+      `;
+
+      div.onclick = function() {
+        loadSavedData(data.id);
+      };
+
+      savedItemsDiv.appendChild(div);
+    });
+  }
+
+  function deleteSavedData(id) {
+    const savedData = JSON.parse(
+      localStorage.getItem("timeCalculatorData") || "[]"
+    );
+
+    const updatedData = savedData.filter(item => item.id !== id);
+
+    localStorage.setItem(
+      "timeCalculatorData",
+      JSON.stringify(updatedData)
+    );
+
+    updateSavedItems();
+  }
+
+
+    function loadSavedData(id) {
+      const savedData = JSON.parse(
+        localStorage.getItem("timeCalculatorData") || "[]"
+      );
+
+      const data = savedData.find(item => item.id === id);
+
+      if (!data) return;
+
+      times = JSON.parse(JSON.stringify(data.times));
+      editingIndex = null;
+
+      updateDisplay();
+      input.focus();
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    updateSavedItems();
+    updateDisplay();
+  </script>
+
+</body>
+</html>
