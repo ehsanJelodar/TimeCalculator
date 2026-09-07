@@ -327,7 +327,7 @@
       }
 
       .time {
-        align-items: flex-start;
+        align-items: center;
       }
 
       .time > span:last-child {
@@ -335,7 +335,7 @@
       }
 
       .saved-item {
-        align-items: flex-start;
+        align-items: center;
       }
     }
 
@@ -678,7 +678,9 @@
 
       savedData.unshift({
         id: Date.now(),
-        date: new Date().toLocaleString(),
+        date: new Date().toLocaleString("en-CA",{
+          hour12: false
+        }),
         times: JSON.parse(JSON.stringify(times)),
         totalMinutes: totalMinutes
       });
